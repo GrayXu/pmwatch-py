@@ -2,8 +2,13 @@
 
 [intel/intel-pmwatch](https://github.com/intel/intel-pmwatch): Intel® PMWatch (PersistentMemoryWatch) is a tool that monitors and reports the performance and health information metrics of the Intel® Optane™ DC Persistent Memory.
 
-todo:
-- [ ] multi-dimm watch
+```
+$python3 pmwatch.py 0 1
+```
+
+TODO:
+- [x] colorized
+- [x] multi-dimm watch
 - [ ] support collecting data from `pcm-memory -pmm | egrep -v "NM"`
 
 
