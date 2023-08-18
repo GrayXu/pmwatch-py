@@ -1,6 +1,6 @@
 # #!/usr/bin/python3
 '''
-collect and calculate data from pmwatch on DIMM0
+collect and calculate data from pmwatch
 '''
 import subprocess
 import sys
@@ -17,9 +17,9 @@ def execute(cmd):
         raise subprocess.CalledProcessError(return_code, cmd)
 
 '''
-格式见pmwatch_example_output
-前两个是epoch和timestamp
-每个DIMM有10个数据
+the first two are epoch and timestamp
+each DIMM has 10 data columns
+example outpus in `pmwatch_example_output`
 '''
 DATA_LEN = 10
 
@@ -39,8 +39,8 @@ def print_per_dimm(data):
     wa = -1
     media_read = -1
     media_write = -1
-    mc_read = -1
-    mc_write = -1
+    MC_Read = -1
+    MC_Write = -1
 
     # cal
     for i in range(2, 4):
@@ -50,8 +50,8 @@ def print_per_dimm(data):
         wa = int(data[5])*4/int(data[9])  # write amplification
         media_read = int(data[4])*256/1024/1024
         media_write = int(data[5])*256/1024/1024
-        mc_read = int(data[8])*64/1024/1024
-        mc_write = int(data[9])*64/1024/1024
+        MC_Read = int(data[8])*64/1024/1024
+        MC_Write = int(data[9])*64/1024/1024
 
     # output
     if ra == -1:
@@ -65,33 +65,33 @@ def print_per_dimm(data):
         print(RED+"WA="+COLOR_TAIL+"%.2f" % wa,                               end=",")
 
 
-    print(GREEN+"me_R/W="+COLOR_TAIL+"%.2f" % (media_read/media_write),       end=",")
-    print(GREEN+"mc_R/W="+COLOR_TAIL+"%.2f" % (mc_read/mc_write),             end=",")
+    print(GREEN+"Me_R/W="+COLOR_TAIL+"%.2f" % (media_read/media_write),       end=",")
+    print(GREEN+"MC_R/W="+COLOR_TAIL+"%.2f" % (MC_Read/MC_Write),             end=",")
     
     if media_read == -1:
-        print(str(GRAY+"me_R="+"%.2f"+COLOR_TAIL) % media_read,               end=",")
+        print(str(GRAY+"Me_R="+"%.2f"+COLOR_TAIL) % media_read,               end=",")
     else:
-        print(BLUE+"me_R="+COLOR_TAIL+"%.2f" % media_read,                    end=",")
+        print(BLUE+"Me_R="+COLOR_TAIL+"%.2f" % media_read,                    end=",")
     
     if media_write == -1:
-        print(str(GRAY+"me_W="+"%.2f"+COLOR_TAIL) % media_write,              end=",")
+        print(str(GRAY+"Me_W="+"%.2f"+COLOR_TAIL) % media_write,              end=",")
     else:
-        print(BLUE+"me_W="+COLOR_TAIL+"%.2f" % media_write,                   end=",")
+        print(BLUE+"Me_W="+COLOR_TAIL+"%.2f" % media_write,                   end=",")
 
-    if mc_read == -1:
-        print(str(GRAY+"mc_R="+"%.2f"+COLOR_TAIL) % mc_read,                  end=",")
+    if MC_Read == -1:
+        print(str(GRAY+"MC_R="+"%.2f"+COLOR_TAIL) % MC_Read,                  end=",")
     else:
-        print(BLUE+"mc_R="+COLOR_TAIL+"%.2f" % mc_read,                       end=",")
+        print(BLUE+"MC_R="+COLOR_TAIL+"%.2f" % MC_Read,                       end=",")
 
-    if mc_write == -1:
-        print(str(GRAY+"mc_W="+"%.2f"+COLOR_TAIL) % mc_write,                 end=",")
+    if MC_Write == -1:
+        print(str(GRAY+"MC_W="+"%.2f"+COLOR_TAIL) % MC_Write,                 end=",")
     else:
-        print(BLUE+"mc_W="+COLOR_TAIL+"%.2f" % mc_write,                      end=",")
+        print(BLUE+"MC_W="+COLOR_TAIL+"%.2f" % MC_Write,                      end=",")
     print("")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("WRONG USAGE!! python3 pmwatch.py $(DIMM_IDs to be watched) (e.g. `$python3 pmwatch.py 0`)")
+        print("WRONG USAGE!!\npython3 pmwatch.py $(DIMM_IDs) (e.g. `$python3 pmwatch.py 0`)")
         exit(0)
 
     dimm_id_list = []
